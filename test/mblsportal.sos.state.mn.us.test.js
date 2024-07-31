@@ -86,7 +86,7 @@ describe('Minnesota', () => {
 	  }).catch(console.log);
 	});
 
-
+	
 	it("hum's", (done) => {
 	  var options = {cache: true, meta: true};
 	  mblsportal.number('899984500029', options).then((entity) => {

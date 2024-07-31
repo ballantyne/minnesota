@@ -231,6 +231,16 @@ function entity(html, config, meta={}) {
 		  
 		  break
 
+		case 'President':
+		  obj.next_value = obj.next_value.join('\n');
+		  var matched = deglyph(obj.next_value).match(/(?<name>.+)\n(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>\d+)\n(?<country>.+)/)
+                  var name = matched.groups.name;
+		  var address = cp(matched.groups);
+		  delete address.name;
+		  obj.president = {name: name, address: address};
+		  
+		  break;
+
 		case 'Manager':
 		  obj.next_value = obj.next_value.join('\n');
 		  var matched = deglyph(obj.next_value).match(/(?<manager>.+)\n(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>\d+)\n(?<country>.+)/)
