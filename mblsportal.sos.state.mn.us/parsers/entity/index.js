@@ -196,13 +196,13 @@ function entity(html, config, meta={}) {
 	      
 	      break;
 	
-	    case 'business_master_id:gather':
+	    case 'business_master_id:set':
 	      var matched = line.match(/<input id=\"BusinessMasterId\" name=\"BusinessMasterId\" type=\"hidden\" value=\"(?<id>.+)\" \/>/)
 	      obj.id = matched.groups.id;
 	      
 	      break;
 
-	    case 'row:gather:next_value':
+	    case 'row:next_value:push':
 	      if (line.trim().length > 0) {
 	        obj.next_value.push(line);
 	      }

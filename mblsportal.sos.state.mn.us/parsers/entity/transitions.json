@@ -144,7 +144,7 @@
     "trigger": {
       "type": "noTag"
     },
-    "action": "row:gather:next_value"
+    "action": "row:next_value:push"
   },
 
   {
@@ -165,7 +165,7 @@
     "trigger": {
       "type": "noTag"
     },
-    "action": "row:gather:next_value"
+    "action": "row:next_value:push"
   },
 
   {
@@ -333,7 +333,7 @@
       "type": "contains",
       "value": "BusinessMasterId"
     },
-    "action": "business_master_id:gather"
+    "action": "business_master_id:set"
   },
 
   {
