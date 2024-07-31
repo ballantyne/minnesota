@@ -6,7 +6,8 @@ const portal = require(path.join(__dirname, '..', 'mblsportal.sos.state.mn.us'))
 
 const r = repl.start('> ');
 
-Object.defineProperty(r.context, 'mblsportal', {
+
+Object.defineProperty(r.context, 'sos', {
   configurable: false,
   enumerable: true,
   value: portal,
