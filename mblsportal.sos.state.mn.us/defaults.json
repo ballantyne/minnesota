@@ -1,0 +1,16 @@
+{
+  "default": { 
+    "hostname": "mblsportal.sos.state.mn.us",
+    "headers": {
+      "User-Agent": "[npm|github]:ballantyne/minnesota/mblsportal.sos.state.mn.us",
+      "Host":    "mblsportal.sos.state.mn.us",
+      "Origin":  "https://mblsportal.sos.state.mn.us"
+    }
+  },
+  "post": {
+    "method": "POST"
+  },
+  "get": {
+    "method": "GET"
+  }
+}

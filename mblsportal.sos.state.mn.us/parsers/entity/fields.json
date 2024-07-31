@@ -1,0 +1,23 @@
+{
+  "Filing Date": "filing_date",
+  "Filing": "filing",
+  "Effective Date": "effective_date",
+  "Mailing Address": "mailing_address",
+  "Markholder": "markholder",
+  "Markholder Address": "markholder_address",
+  "Applicant": "applicant",
+  "Applicant Address": "applicant_address",
+  "Business Type": "type",
+  "Mark Type": "mark_type",
+  "Manager": "manager",
+  "Principal Executive Office Address": "principal_office",
+  "Principal Place of Business Address": "place_of_business",
+  "MN Statute": "statute",
+  "File Number": "file_number",
+  "Home Jurisdiction": "jurisdiction",
+  "Filing Date": "filing_date",
+  "Status": "status",
+  "Renewal Due Date": "renewal_due_date",
+  "Registered Office Address": "registered_office",
+  "Registered Agent(s)": "agents"
+}

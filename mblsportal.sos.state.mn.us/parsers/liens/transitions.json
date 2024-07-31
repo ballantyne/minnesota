@@ -1,0 +1,18 @@
+[
+  {
+    "name": "no_results",
+    "trigger": {
+      "type": "contains",
+      "value": "No results matching search criteria."
+    },
+    "action": "no_results"
+  },
+  {
+    "name": "current",
+    "trigger": {
+      "type": "contains",
+      "value":"Data current through"
+    },
+    "action": "current"
+  }
+]

@@ -1,0 +1,70 @@
+[
+  {
+    "name": "collection:start",
+    "trigger": {
+      "type": "startsWith",
+      "value": "<table"
+    },
+    "sets": {
+      "state": "collect"
+    }
+  },
+  {
+    "name": "collection:end",
+    "trigger": {
+      "type": "exact",
+      "value": "</table>"
+    },
+    "sets": {
+      "state": "scan"
+    },
+    "action": "new"
+  },
+  {
+    "name": "new",
+    "states": ["collect"],
+    "trigger": {
+      "type": "exact",
+      "value": "<tr>"
+    },
+    "action": "new"
+  },
+  {
+    "name": "next:value",
+    "states": ["collect:values"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<span>"
+    },
+    "action": "next:value"
+  },
+
+  {
+    "name": "next:key",
+    "states": ["collect"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<span class=\"text-muted\">"
+    },
+    "action": "next:key"
+  },
+  {
+    "name": "gather:name",
+    "states": ["collect"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<strong>"
+    },
+    "action": "gather:name"
+
+  },
+  {
+    "name": "gather:link",
+    "states": ["collect"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<a href=\"\/Business\/SearchDetails"
+    },
+    "action": "gather:link"
+  }
+]

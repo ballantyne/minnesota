@@ -1,0 +1,458 @@
+[
+  {
+    "name": "collecttion:start",
+    "trigger": {
+      "type": "contains",
+      "value": "Word or Phrase"
+    },
+    "sets": {
+      "state": "collect"
+    }
+  },
+
+  {
+    "name": "collecttion:start",
+    "trigger": {
+      "type": "contains",
+      "value": "Minnesota Business Name"
+    },
+    "sets": {
+      "state": "collect"
+    }
+  },
+  {
+    "name": "collection:end",
+    "trigger": {
+      "type": "startsWith",
+      "value": "<footer id=\"footer-site\">"
+    },
+    "sets": {
+      "state": "scan"
+    }
+  },
+
+  {
+    "name": "gather:name",
+    "states": ["collect"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<span class=\"navbar-brand\""
+    },
+    "action": "gather:name",
+    "sets": {
+      "state": "scan"
+    }
+  },
+ 
+  {
+    "name": "row:data",
+    "states": ["scan"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<div id=\"filingSummary"
+    },
+    "sets": {
+      "state": "row:data"
+    }
+  },
+
+  {
+    "name": "map:row",
+    "states": ["row:data"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<div class=\"row\">"
+    },
+    "action": "map:row",
+    "sets": {
+      "state": "gather:row"
+    }
+  },
+
+  {
+    "name": "row:collection",
+    "states": ["gather:row"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<dl>"
+    },
+    "sets": {
+      "state": "dl"
+    }
+  },
+
+
+  {
+    "name": "row:key:collection",
+    "states": ["dl"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<dt>"
+    },
+    "sets": {
+      "state": "dt"
+    }
+  },
+  {
+    "name": "row:key:collection:end",
+    "states": ["dt"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "</dt>"
+    },
+    "sets": {
+      "state": "gather:row"
+    }
+  },
+
+
+  {
+    "name": "row:data:collection",
+    "states": ["gather:row"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<dd>"
+    },
+    "sets": {
+      "state": "dd"
+    }
+  },
+  {
+    "name": "row:data:collection:end",
+    "states": ["dd"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "</dl>"
+    },
+    "action": "row:data:collection:end",
+    "sets": {
+      "state": "gather:row"
+    }
+  },
+  {
+    "name": "row:key:collect",
+    "states": ["dt"],
+    "trigger": {
+      "type": "noTag"
+    },
+    "action": "row:key:collect"
+  },
+
+  {
+    "name": "row:data:collect",
+    "states": ["dd"],
+    "trigger": {
+      "type": "noTag"
+    },
+    "action": "row:data:collect"
+  },
+
+  {
+    "name": "row:data:collection:address",
+    "states": ["dd"],
+    "trigger": {
+      "type": "exact",
+      "value": "<address>"
+    },
+    "sets": {
+      "state": "row:data:collection:address"
+    }
+  },
+
+  {
+    "name": "row:data:collect:address",
+    "states": ["row:data:collection:address"],
+    "trigger": {
+      "type": "noTag"
+    },
+    "action": "row:data:collect"
+  },
+
+  {
+    "name": "row:data:collection:address:end",
+    "states": ["row:data:collection:address"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "</address>"
+    },
+    "sets": {
+      "state": "gather:row"
+    },
+    "action": "row:data:collection:address:end"
+  },
+  {
+    "name": "row:finished",
+    "states": ["gather:row","row:collection", "dl", "dt", "dd"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<a name=\"orderselected\"></a>"
+    },
+    "sets": {
+      "state": "collect"
+    }
+  },
+
+  {
+    "name": "other_info",
+    "states": ["gather:row"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<table class=\"table\">"
+    },
+    "sets": {
+      "state": "other_info:headers",
+      "trim": true,
+      "headers": []
+    }
+  },
+
+  {
+    "name": "other_info:headers:collection",
+    "states": ["other_info:headers"],
+    "trigger": {
+       "type": "startsWith",
+       "value": "<th scope=\"col\">"
+    },
+    "sets": {
+      "state": "other_info:headers:collect"
+    }
+  },
+
+  {
+    "name": "other_info:headers:gather:end",
+    "states": ["other_info:headers:collect"],
+    "trigger": {
+       "type": "startsWith",
+       "value": "<\/th>"
+    },
+    "sets": {
+      "state": "other_info:headers"
+    },
+    "action": "other_info:headers:gather:end"
+  },
+
+  {
+    "name": "other_info:headers:collection:end",
+    "states": ["other_info:headers:collect"],
+    "trigger": {
+       "type": "startsWith",
+       "value": "</thead>"
+    },
+    "sets": {
+      "state": "other_info:headers"
+    },
+    "action": "other_info:headers:collection:end"
+  },
+
+  {
+    "name": "other_info:headers:gather",
+    "states": ["other_info:headers:collect"],
+    "trigger": {
+       "type": "noTag"
+    },
+    "action": "other_info:headers:gather"
+  },
+
+
+  {
+    "name": "other_info:collection",
+    "states": ["other_info:headers"],
+    "trigger": {
+       "type": "startsWith",
+       "value": "<\/thead>"
+    },
+    "sets": {
+      "state": "other_info:collection",
+      "trim": false
+    },
+    "action": "other_info:collection"
+  },
+
+  {
+    "name": "other_info:collect",
+    "states": ["other_info:collection"],
+    "trigger": {
+       "type": "startsWith",
+       "value": "<td>"
+    },
+    "sets": {
+      "state": "other_info:collect",
+      "trim": false
+    }
+  },
+
+  {
+    "name": "other_info:collect:gather",
+    "states": ["other_info:collect"],
+    "trigger": {
+       "type": "noTag"
+    },
+    "action": "other_info:gather"
+  },
+
+  {
+    "name": "other_info:collect:gather:end",
+    "states": ["other_info:collect:gather"],
+    "trigger": {
+       "type": "startsWith",
+       "value": "<\/td>"
+    },
+    "action": "other_info:gather:end",
+    "sets": {
+      "state": "other_info:collect",
+      "trim": false
+    }
+  },
+  {
+    "name": "other_info:gather:end",
+    "states": ["other_info:collect"],
+    "trigger": {
+       "type": "startsWith",
+       "value": "</td>"
+    },
+    "action": "other_info:gather:end"
+  },
+
+  {
+    "name": "other_info:collection:end",
+    "states": ["other_info:collect"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<\/table>"
+    },
+    "sets": {
+      "state": "collect",
+      "trim": true
+    }
+  },
+
+  {
+    "name":"BusinessMasterId",
+    "states": ["collect"],
+    "trigger": {
+      "type": "contains",
+      "value": "BusinessMasterId"
+    },
+    "action": "business_master_id:gather"
+  },
+
+  {
+    "name": "history:type:filings",
+    "states": ["collect"],
+    "trigger": {
+      "type": "contains",
+      "value": "Filing History"
+    },
+    "sets": {
+      "history": "filings"
+    }
+  },
+
+  {
+    "name": "history:type:renewals",
+    "states": ["collect"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<h3 class=\"print-only\">Renewal History<\/h3>"
+    },
+    "sets": {
+      "history": "renewals",
+      "state": "history:headers:collect"
+    }
+  },
+
+  {
+    "name": "history:headers:collect",
+    "states": ["collect"],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<table class=\"table order-form\" id=\"tblOrderForm\""
+    },
+    "sets": {
+      "state": "history:headers:collect"
+    },
+    "action": "history:headers:collect"
+  },
+  {
+    "name": "history:headers:gather",
+    "states": [
+      "history:headers:gather",
+      "history:headers:collect"
+    ],
+    "trigger": {
+      "type": "startsWith",
+      "value": "<th class=\"col-md"
+    },
+    "action": "history:headers:gather",
+    "sets": {
+      "state": "history:headers:gather"
+    }
+  },
+  {
+    "name": "history:headers:collect:end",
+    "states": ["history:headers:gather"],
+    "trigger": {
+       "type": "startsWith",
+       "value": "<tr>"
+    },
+    "sets": {
+      "state": "history:collect",
+      "trim": false
+    },
+    "action": "history:headers:collect:end"
+  },
+  {
+    "name": "history:data:collect",
+    "states": ["history:collect"],
+    "sets": {
+      "state": "history:data:collect"
+    },
+    "action": "history:data:collect",
+    "trigger": {
+      "type": "startsWith",
+      "value": "<td class"
+    }
+  },
+  {
+    "name": "history:data:collect:end",
+    "states": ["history:data:collect"],
+    "sets": {
+      "state": "history:collect"
+    },
+    "action": "history:data:collect:end",
+    "trigger": {
+      "type": "startsWith",
+      "value": "<\/td>"
+    }
+  },
+  {
+    "name": "history:data:gather",
+    "states": ["history:data:collect"],
+    "action": "history:data:gather",
+    "trigger": {
+      "type": "noTag"
+    }
+  },
+  {
+    "name": "history:push",
+    "states": ["history:collect"],
+    "action": "history:push",
+    "trigger": {
+       "type": "startsWith",
+       "value": "<\/tr>"
+    }
+  },
+  {
+    "name": "history:collection:end",
+    "states": ["history:collect"],
+    "sets": {
+      "state": "collect",
+      "trim": true
+    },
+    "trigger": {
+      "type": "startsWith",
+      "value": "<\/table>"
+    },
+    "action": "history:collection:end"
+  }
+]

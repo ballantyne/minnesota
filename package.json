@@ -1,0 +1,36 @@
+{
+  "name": "minnesota",
+  "version": "1.0.0",
+  "description": "data collection library related to minnesota.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --extension json --extension js -w test"
+  },
+  "bin": {
+    "mn.repl": "./bin/console.js",
+    "mn.cli": "./bin/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ballantyne/minnesota.git"
+  },
+  "keywords": [
+    "minnesota",
+    "business",
+    "filing",
+    "system"
+  ],
+  "author": "Scott Ballantyne",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ballantyne/minnesota/issues"
+  },
+  "homepage": "https://github.com/ballantyne/minnesota#readme",
+  "dependencies": {
+    "carrier-pigeon": "^0.1.11",
+    "great-lakes": "^1.0.2"
+  },
+  "devDependencies": {
+    "mocha": "^10.7.0"
+  }
+}

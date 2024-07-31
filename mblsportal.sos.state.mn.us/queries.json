@@ -1,0 +1,13 @@
+{
+  "default": {
+    "IncludePriorName": "False",
+    "Status": "Active",
+    "Type": "BeginsWith"
+  },
+  "ucc": {
+    "IncludeLapsedFilings": "False",
+    "IncludeTaxFilings": "False",
+    "IncludeUccFilings": "False",
+    "NameType":"Debtor"
+  }
+}
