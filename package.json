@@ -7,8 +7,8 @@
     "test": "mocha --extension json --extension js -w test"
   },
   "bin": {
-    "mn.repl": "./bin/console.js",
-    "mn.cli": "./bin/cli.js"
+    "mn.sos.console": "./bin/console.js",
+    "mn.sos.cli": "./bin/cli.js"
   },
   "repository": {
     "type": "git",
