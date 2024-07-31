@@ -100,7 +100,6 @@ describe('Minnesota', () => {
 	  }).catch(console.log);
 	});
 
-
 	it("mra", (done) => {
 	  var options = {cache: true, meta: true};
 	  mblsportal.number('1270235600022', options).then((entity) => {
@@ -112,8 +111,7 @@ describe('Minnesota', () => {
 	    done();
 	  }).catch(console.log);
 	}).timeout(5000);
-      
-
+ 
       });
 
       describe('liens', () => {

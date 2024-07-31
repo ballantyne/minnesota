@@ -219,41 +219,30 @@ function entity(html, config, meta={}) {
 	      obj.next_value = obj.next_value.filter((part) => { return part != ''});
 
               var key = fields[obj.next_key];
-	      
-	      switch(obj.next_key) {
-	        case 'Chief Executive Officer':
-		  obj.next_value = obj.next_value.join('\n');
-		  var matched = deglyph(obj.next_value).match(/(?<name>.+)\n(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>\d+)\n(?<country>.+)/)
-                  var name = matched.groups.name
-		  var address = cp(matched.groups);
-		  delete address.name
-		  obj.ceo = {name: name, address: address};
-		  
-		  break
 
-		case 'President':
-		  obj.next_value = obj.next_value.join('\n');
-		  var matched = deglyph(obj.next_value).match(/(?<name>.+)\n(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>\d+)\n(?<country>.+)/)
-                  var name = matched.groups.name;
-		  var address = cp(matched.groups);
-		  delete address.name;
-		  obj.president = {name: name, address: address};
-		  
-		  break;
+	      var regexes = {
+                with_name: /(?<name>.+)\n(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>\d+)\n(?<country>.+)/,
+		without_name: /(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>.+)\n(?<country>.+)/
+	      }
 
-		case 'Manager':
-		  obj.next_value = obj.next_value.join('\n');
-		  var matched = deglyph(obj.next_value).match(/(?<manager>.+)\n(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>\d+)\n(?<country>.+)/)
-                  obj.management = cp(matched.groups);
-		  
-		  break;
+	      var nextValue = deglyph(obj.next_value.join('\n'));
+	      var hasName = regexes.with_name.test(nextValue);
 
-                default: 
-		  obj.next_value = obj.next_value.join('\n');
-		  var matched = deglyph(obj.next_value).match(/(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>.+)\n(?<country>.+)/)
-                  obj[key] = cp(matched.groups);
-		  
-		  break;
+	      if (hasName) {
+		var matched = nextValue.match(regexes.with_name)
+		var name = matched.groups.name
+		var address = cp(matched.groups);
+		delete address.name
+                
+		if (key == undefined) {
+                  key = obj.next_key.split(' ').join('_').toLowerCase();
+		}
+
+		obj[key] = {name: name, address: address};
+	      } else {
+		var matched = nextValue.match(regexes.without_name)
+		obj[key] = cp(matched.groups);
+
 	      }
 
 	      delete obj.next_key;
