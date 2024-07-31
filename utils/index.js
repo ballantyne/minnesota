@@ -38,3 +38,25 @@ function zip(array1, array2) {
   }, {});
 }
 module.exports.zip = zip;
+
+
+
+
+function logger(options={}) {
+  if (options.ignore == undefined) {
+    options.ignore = []
+  }
+
+  if (options.verbose && options.ignore.indexOf(options.context.state) == -1) {
+    console.log('.......................................................')
+    console.log(options.index, options.state, options.line);
+
+    if (options.modulations.length > 0) {
+      console.log('.......................................................')
+      console.log('modulations');
+      console.log('.......................................................')
+      console.log(options.modulations);
+    }
+  }
+}
+module.exports.logger = logger;

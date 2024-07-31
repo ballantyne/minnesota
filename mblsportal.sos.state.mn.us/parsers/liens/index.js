@@ -13,6 +13,10 @@ const {
   get
 } = require('great-lakes');
 
+const {
+  logger
+} = require(path.join(__dirname, '..', '..', '..', 'utils'));
+
 const Entity = require(path.join(__dirname, '..', '..', 'entity'));
 
 var fields = requireJSON(path.join(__dirname, 'fields'));
@@ -42,20 +46,14 @@ function liens(html, config, meta={}) {
 
         var modulations = modulator(context.state, line);
 
-        if (config.verbose && ['nope'].indexOf(context.state) == -1) {
-	  console.log('');
-	  console.log('********...........................................********')
-
-	  console.log(line);
-          console.log('state:',context.state);
-
-          if (modulations.length > 0) {
-            console.log('.......................................................')
-            console.log('modulations');
-            console.log('.......................................................')
-            console.log(modulations);
-          }
-        }
+	logger({
+	  line:line, 
+	  index: index, 
+	  modulations: modulations, 
+	  state: context.state, 
+	  verbose: config.verbose, 
+	  ignore: ['scan']
+	});
 
         var changes = modulations.filter((modulation) => {
           return Object.keys(modulation).indexOf('sets') > -1

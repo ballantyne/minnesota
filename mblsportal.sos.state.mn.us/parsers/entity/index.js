@@ -15,7 +15,7 @@ const {
 
 
 const {
-  zip, tidy, deglyph
+  logger, zip, tidy, deglyph
 } = require(path.join(__dirname, '..', '..', '..', 'utils'));
 
 
@@ -59,20 +59,14 @@ function entity(html, config, meta={}) {
 	}
         var modulations = modulator(context.state, line);
       
-        if (config.verbose && ["scan"].indexOf(context.state) == -1) {
-	  console.log('.......................................................')
-	  //console.log('raw:');
-	  //console.log(raw);
-	  console.log(context.state, line);
-          //console.log('state:',context.state);
-
-          if (modulations.length > 0) {
-            console.log('.......................................................')
-            console.log('modulations');
-            console.log('.......................................................')
-            console.log(modulations);
-          }
-        }
+	logger({
+	  line:line, 
+	  index: index, 
+	  modulations: modulations, 
+	  state: context.state, 
+	  verbose: config.verbose, 
+	  ignore: ['scan']
+	});
 
         var changes = modulations.filter((modulation) => {
           return Object.keys(modulation).indexOf('sets') > -1
