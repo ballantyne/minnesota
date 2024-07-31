@@ -25,6 +25,11 @@ var ignorance      = ignorant(ignoranceRules);
 var transitions    = requireJSON(path.join(__dirname, 'transitions'));
 var modulator      = sway(transitions);
 
+var regexes = {
+  with_name: /(?<name>.+)\n(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>\d+)\n(?<country>.+)/,
+  without_name: /(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>.+)\n(?<country>.+)/
+}
+
 function entity(html, config, meta={}) {
 
   var results;
@@ -88,7 +93,7 @@ function entity(html, config, meta={}) {
 	    case 'gather:name':
               var matched = line.match(/<span class=\"navbar-brand\">(?<name>.+)<\/span>/)
 	      Object.assign(obj, matched.groups);
-	      obj.name = deglyph(obj.name);
+	      obj.name = deglyph(obj.name).trim();
 	      
 	      break;
             
@@ -127,7 +132,7 @@ function entity(html, config, meta={}) {
             
 	    case 'other_info:gather:end':
  	      var key = fields[context.headers[0]];
-	      obj[key] = obj[key].join(' ')
+	      obj[key] = obj[key].join(' ').trim();
 
 	      context.headers.shift();       
 	      
@@ -144,6 +149,7 @@ function entity(html, config, meta={}) {
 	      }
 	      
 	      break;
+
 	    case 'history:headers:collect:end':
               obj.filing = {};
 
@@ -151,12 +157,14 @@ function entity(html, config, meta={}) {
 
 	    case 'history:data:gather':
 	      obj.next_value.push(line);
+	      
 	      break;
 
 	    case 'history:data:collect':
 	      if (obj.next_value == undefined) {
                 obj.next_value = [];
 	      }
+	      
 	      break;
 
 	    case 'history:data:collect:end':
@@ -166,6 +174,7 @@ function entity(html, config, meta={}) {
 		obj.filing[fields[context.headers[fk.length]]] = obj.next_value.join(' ');
 	      }
 	      obj.next_value = [];
+	      
 	      break;
 
 	    case 'history:push': 
@@ -202,7 +211,7 @@ function entity(html, config, meta={}) {
 
 	    case 'row:data:collection:end':
 	      var key = fields[obj.next_key];
-	      obj[key] = ['agents'].indexOf(key) > -1 ? obj.next_value : obj.next_value.join('');
+	      obj[key] = ['agents'].indexOf(key) > -1 ? obj.next_value : obj.next_value.join('').trim();
 	      
 	      delete obj.next_key;
 	      delete obj.next_value;
@@ -219,10 +228,6 @@ function entity(html, config, meta={}) {
 		key = obj.next_key.split(' ').join('_').toLowerCase();
 	      }
 
-	      var regexes = {
-                with_name: /(?<name>.+)\n(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>\d+)\n(?<country>.+)/,
-		without_name: /(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>.+)\n(?<country>.+)/
-	      }
 
 	      var nextValue = deglyph(obj.next_value.join('\n'));
 	      var hasName = regexes.with_name.test(nextValue);
