@@ -220,6 +220,11 @@ function entity(html, config, meta={}) {
 
               var key = fields[obj.next_key];
 
+	      // parameterize if original doesn't match
+	      if (key == undefined) {
+		key = obj.next_key.split(' ').join('_').toLowerCase();
+	      }
+
 	      var regexes = {
                 with_name: /(?<name>.+)\n(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>\d+)\n(?<country>.+)/,
 		without_name: /(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>.+)\n(?<country>.+)/
@@ -230,19 +235,15 @@ function entity(html, config, meta={}) {
 
 	      if (hasName) {
 		var matched = nextValue.match(regexes.with_name)
+	
 		var name = matched.groups.name
 		var address = cp(matched.groups);
 		delete address.name
                 
-		if (key == undefined) {
-                  key = obj.next_key.split(' ').join('_').toLowerCase();
-		}
-
 		obj[key] = {name: name, address: address};
 	      } else {
 		var matched = nextValue.match(regexes.without_name)
 		obj[key] = cp(matched.groups);
-
 	      }
 
 	      delete obj.next_key;
