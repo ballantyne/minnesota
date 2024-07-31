@@ -124,7 +124,7 @@
       "type": "startsWith",
       "value": "</dl>"
     },
-    "action": "row:data:collection:end",
+    "action": "row:data:set",
     "sets": {
       "state": "gather:row"
     }
@@ -135,7 +135,7 @@
     "trigger": {
       "type": "noTag"
     },
-    "action": "row:key:collect"
+    "action": "row:initialize:next_key"
   },
 
   {
@@ -144,7 +144,7 @@
     "trigger": {
       "type": "noTag"
     },
-    "action": "row:data:collect"
+    "action": "row:gather:next_value"
   },
 
   {
@@ -165,7 +165,7 @@
     "trigger": {
       "type": "noTag"
     },
-    "action": "row:data:collect"
+    "action": "row:gather:next_value"
   },
 
   {
@@ -178,7 +178,7 @@
     "sets": {
       "state": "gather:row"
     },
-    "action": "row:data:collection:address:end"
+    "action": "row:address:set"
   },
   {
     "name": "row:finished",
@@ -371,7 +371,7 @@
     "sets": {
       "state": "history:headers:collect"
     },
-    "action": "history:headers:collect"
+    "action": "history:initialize:headers"
   },
   {
     "name": "history:headers:gather",
@@ -399,7 +399,7 @@
       "state": "history:collect",
       "trim": false
     },
-    "action": "history:headers:collect:end"
+    "action": "history:new:object"
   },
   {
     "name": "history:data:collect",
@@ -407,7 +407,7 @@
     "sets": {
       "state": "history:data:collect"
     },
-    "action": "history:data:collect",
+    "action": "history:initialize:next_value",
     "trigger": {
       "type": "startsWith",
       "value": "<td class"
@@ -419,7 +419,7 @@
     "sets": {
       "state": "history:collect"
     },
-    "action": "history:data:collect:end",
+    "action": "history:cycle:next_value",
     "trigger": {
       "type": "startsWith",
       "value": "<\/td>"
@@ -428,7 +428,7 @@
   {
     "name": "history:data:gather",
     "states": ["history:data:collect"],
-    "action": "history:data:gather",
+    "action": "history:next_value:push",
     "trigger": {
       "type": "noTag"
     }
@@ -436,7 +436,7 @@
   {
     "name": "history:push",
     "states": ["history:collect"],
-    "action": "history:push",
+    "action": "history:push:current",
     "trigger": {
        "type": "startsWith",
        "value": "<\/tr>"
@@ -453,6 +453,6 @@
       "type": "startsWith",
       "value": "<\/table>"
     },
-    "action": "history:collection:end"
+    "action": "history:set"
   }
 ]

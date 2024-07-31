@@ -138,7 +138,7 @@ function entity(html, config, meta={}) {
 	      
 	      break;
 
-	    case 'history:headers:collect':
+	    case 'history:initialize:headers':
               context.headers = [];
 	      break;
 
@@ -150,24 +150,24 @@ function entity(html, config, meta={}) {
 	      
 	      break;
 
-	    case 'history:headers:collect:end':
+	    case 'history:new:object':
               obj.filing = {};
 
 	      break;
 
-	    case 'history:data:gather':
+	    case 'history:next_value:push':
 	      obj.next_value.push(line);
 	      
 	      break;
 
-	    case 'history:data:collect':
+	    case 'history:initialize:next_value':
 	      if (obj.next_value == undefined) {
                 obj.next_value = [];
 	      }
 	      
 	      break;
 
-	    case 'history:data:collect:end':
+	    case 'history:cycle:next_value':
 	      var fk = Object.keys(obj.filing); 
 	      var value = obj.next_value.join(' ');
 	      if (value != "") {
@@ -177,20 +177,20 @@ function entity(html, config, meta={}) {
 	      
 	      break;
 
-	    case 'history:push': 
+	    case 'history:push:current': 
 	      history[context.history].push(cp(obj.filing));
 	      obj.filing = {}
 
 	      break;
 
-	    case 'history:collection:end': 
+	    case 'history:set': 
 	      delete obj.filing;
               delete obj.next_value;
 	      obj[context.history] = history[context.history];
               
 	      break;
 
-	    case 'row:key:collect':
+	    case 'row:initialize:next_key':
 	      obj.next_key = line;
 	      obj.next_value = [];
 	      
@@ -202,14 +202,14 @@ function entity(html, config, meta={}) {
 	      
 	      break;
 
-	    case 'row:data:collect':
+	    case 'row:gather:next_value':
 	      if (line.trim().length > 0) {
 	        obj.next_value.push(line);
 	      }
 	      
 	      break;
 
-	    case 'row:data:collection:end':
+	    case 'row:data:set':
 	      var key = fields[obj.next_key];
 	      obj[key] = ['agents'].indexOf(key) > -1 ? obj.next_value : obj.next_value.join('').trim();
 	      
@@ -218,7 +218,7 @@ function entity(html, config, meta={}) {
 	      
 	      break;
 
-	    case 'row:data:collection:address:end':
+	    case 'row:address:set':
 	      obj.next_value = obj.next_value.filter((part) => { return part != ''});
 
               var key = fields[obj.next_key];
