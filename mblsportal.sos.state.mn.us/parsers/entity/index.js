@@ -1,5 +1,8 @@
 const path = require('path');                                    
-const { createHmac } = require('node:crypto');
+
+const { 
+  createHmac 
+} = require('node:crypto');
 
 const {
   sway,
@@ -55,17 +58,18 @@ function entity(html, config, meta={}) {
         if (context.trim) {
 	  line = line.replace('<td>', '').replace('</td>', '').trim();
         } else {
-          line = tidy(line.trim());
-	  var parts = line.split('\n');
+          var parts = tidy(line.trim(), true);
+	  
 	  if (parts.length > 1) {
             lines = parts.concat(lines);
 	    return obj;
 	  }
 	}
-        var modulations = modulator(context.state, line);
+        
+	var modulations = modulator(context.state, line);
       
 	logger({
-	  line:line, 
+	  line: line, 
 	  index: index, 
 	  modulations: modulations, 
 	  state: context.state, 
@@ -98,7 +102,7 @@ function entity(html, config, meta={}) {
 	      break;
             
 	    case 'map:row':
-              lines = tidy(line).split('\n').concat(lines);
+              lines = tidy(line, true).concat(lines);
 	      
 	      break;
 		 
@@ -221,11 +225,11 @@ function entity(html, config, meta={}) {
 	    case 'row:address:set':
 	      obj.next_value = obj.next_value.filter((part) => { return part != ''});
 
-              var key = fields[obj.next_key];
+              var nextKey = fields[obj.next_key];
 
 	      // parameterize if original doesn't match
-	      if (key == undefined) {
-		key = obj.next_key.split(' ').join('_').toLowerCase();
+	      if (nextKey == undefined) {
+		nextKey = obj.next_key.split(' ').join('_').toLowerCase();
 	      }
 
 
@@ -239,10 +243,10 @@ function entity(html, config, meta={}) {
 		var address = cp(matched.groups);
 		delete address.name
                 
-		obj[key] = {name: name, address: address};
+		obj[nextKey] = {name: name, address: address};
 	      } else {
 		var matched = nextValue.match(regexes.without_name)
-		obj[key] = cp(matched.groups);
+		obj[nextKey] = cp(matched.groups);
 	      }
 
 	      delete obj.next_key;

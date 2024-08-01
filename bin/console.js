@@ -6,7 +6,7 @@ const portal = require(path.join(__dirname, '..', 'mblsportal.sos.state.mn.us'))
 const Entity = require(path.join(__dirname, '..', 'mblsportal.sos.state.mn.us', 'entity'));
 const fetch = require(path.join(__dirname, '..', 'mblsportal.sos.state.mn.us', 'fetch'));
 
-const r = repl.start('> ');
+const r = repl.start('mn.sos> ');
 
 
 Object.defineProperty(r.context, 'sos', {
