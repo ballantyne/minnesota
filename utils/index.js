@@ -75,3 +75,26 @@ function logger(options={}) {
   }
 }
 module.exports.logger = logger;
+
+
+
+
+
+
+
+
+
+
+
+function metaify(data, config, meta) {
+  var results = {};
+  if (config.meta) {
+    results.meta = meta;
+    results.data = data
+  } else {
+    results = data;
+  }
+  return results;
+}
+
+module.exports.metaify = metaify;

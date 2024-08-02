@@ -19,6 +19,10 @@ var constructQuery = construct(requireJSON(path.join(__dirname, 'queries')));
 var applyOptions   = construct(requireJSON(path.join(__dirname, 'defaults')));
 
 
+const {
+  metaify
+} = require(path.join(__dirname, '..', 'utils'));
+
 
 
 
