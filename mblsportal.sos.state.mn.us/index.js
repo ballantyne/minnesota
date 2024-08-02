@@ -49,6 +49,8 @@ function search(query, config={}) {
       }
     } 
 
+    // console.log('search');
+
     var list = await Parser.search(response.body, config, {query: query}).catch(console.log);
 
     if (config.meta && config.response) {
@@ -74,16 +76,18 @@ function number(query, config={}) {
     query = constructQuery('default', {FileNumber: query});
 
     search(query, {meta: false, cache: initial.cache}).then((searchResults) => {
-      var entity = new Entity(searchResults[0]);
-      entity.fetch(initial).then((completeEntity) => {
-        resolve(completeEntity);
-      })
+      if (searchResults.length == 0) { 
+        resolve({meta: {query: query}, data: {error: 'Not Found'}});
+      } else {
+	var entity = new Entity(searchResults[0]);
+	entity.fetch(initial).then((completeEntity) => {
+	  resolve(completeEntity);
+	})
+      }
     })
   });
 }
 module.exports.number = number;
-
-
 
 
 

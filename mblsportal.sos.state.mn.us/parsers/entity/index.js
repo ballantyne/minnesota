@@ -28,6 +28,11 @@ var ignorance      = ignorant(ignoranceRules);
 var transitions    = requireJSON(path.join(__dirname, 'transitions'));
 var modulator      = sway(transitions);
 
+function addError(obj, message) {
+  obj['error'] = message;
+  return obj
+}
+
 var regexes = {
   with_name: /(?<name>.+)\n(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>\d+)\n(?<country>.+)/,
   without_name: /(?<street>.+)\n(?<city>.+),\s(?<state>\w+)\s(?<zip>.+)\n(?<country>.+)/
@@ -79,7 +84,7 @@ function entity(html, config, meta={}) {
 	  modulations: modulations, 
 	  state: context.state, 
 	  verbose: config.verbose, 
-	  ignore: ['scan']
+	  ignore: []
 	});
 
         var changes = modulations.filter((modulation) => {
@@ -105,7 +110,12 @@ function entity(html, config, meta={}) {
 	      obj.name = deglyph(obj.name).trim();
 	      
 	      break;
-            
+	    case 'error:not_found':
+	      obj = {error: "Not Found"};
+	      meta.status = 404;
+
+	      break;
+	    
 	    case 'map:row':
               lines = tidy(line, {split: true}).concat(lines);
 	      
@@ -283,10 +293,16 @@ function entity(html, config, meta={}) {
 
       return obj;
     }, entity);
- 
+
+
+    //if (Object.keys(entity) == 0) {
+    //  entity = addError(entity, 'Not found');
+    //}
+
     if (config.meta) {
       meta.version.data = fingerprint('entity', entity);
       meta.requested_at = new Date();
+
 
       results = {meta: meta, data: entity};
     } else {

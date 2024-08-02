@@ -1,5 +1,14 @@
 [
   {
+    "name": "error:not_found",
+    "states": ["scan"],
+    "trigger": {
+      "type": "contains",
+      "value": "Object moved to "
+    },
+    "action": "error:not_found"
+  },
+  {
     "name": "collecttion:start",
     "trigger": {
       "type": "contains",

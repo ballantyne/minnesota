@@ -62,7 +62,7 @@ function logger(options={}) {
     options.ignore = []
   }
 
-  if (options.verbose && options.ignore.indexOf(options.context.state) == -1) {
+  if (options.verbose && options.ignore.indexOf(options.state) == -1) {
     console.log('.......................................................')
     console.log(options.index, options.state, options.line);
 

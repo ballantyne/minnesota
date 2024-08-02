@@ -35,7 +35,7 @@ function search(html, config, meta={}) {
     Object.assign(meta, {version: {cache: fingerprint('list', html)}});
   }
 
- var context = {state: 'scan', parser: 'none', headers: []};
+  var context = {state: 'scan', parser: 'none', headers: []};
 
   //config.verbose = true;
 

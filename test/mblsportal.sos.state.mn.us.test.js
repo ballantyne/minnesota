@@ -48,6 +48,7 @@ describe('Minnesota', () => {
 	  }).catch(console.log);
 	});
 
+
 	it('hotpot', (done) => {
 	  var options = {cache: true, meta: true};
 	  mblsportal.number('1357938300026', options).then((entity) => {
@@ -57,6 +58,19 @@ describe('Minnesota', () => {
 	    assert.equal(entity.data.name, "HOT POT CITY")
 	    assert.equal(entity.data.applicant.name, "HOT POT CITY LLC")
 	    assert.equal(entity.data.applicant.address.street, "12160 TECHNOLOGY DR")
+
+	    done();
+	  }).catch(console.log);
+	});
+
+
+	it.only('not hotpot', (done) => {
+	  var options = {cache: true, meta: true};
+	  mblsportal.number('1357938301234', options).then((entity) => {
+	    // any good chinese food recommendations in the twin cities?
+	    console.log(entity);
+
+	    assert.equal(entity.data.error, "Not Found")
 
 	    done();
 	  }).catch(console.log);

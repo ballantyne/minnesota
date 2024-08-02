@@ -49,12 +49,22 @@ function fetch(query, config={}) {
       }
     } 
 
-    var entity = await Parser.entity(response.body, config, cp({
-      id: query.id, 
-      url: [conf.host, conf.endpoint, query.id].join('')
-    })).catch(console.log)
+    //console.log('fetch',response)
 
-    resolve(entity);
+    var meta = cp({
+      id: query.id,
+      url: [conf.host, conf.endpoint, query.id].join('')
+    });
+
+
+    if (response.headers.location == '/Home/Error') {
+       resolve({meta: meta, data: {error: 'Not Found'}});
+    } else {
+
+      var entity = await Parser.entity(response.body, config, meta).catch(console.log)
+
+      resolve(entity);
+    }
   });
 
 }
