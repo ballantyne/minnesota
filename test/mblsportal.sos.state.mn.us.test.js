@@ -64,11 +64,11 @@ describe('Minnesota', () => {
 	});
 
 
-	it.only('not hotpot', (done) => {
+	it('not hotpot', (done) => {
 	  var options = {cache: true, meta: true};
 	  mblsportal.number('1357938301234', options).then((entity) => {
 	    // any good chinese food recommendations in the twin cities?
-	    console.log(entity);
+	    //console.log(entity);
 
 	    assert.equal(entity.data.error, "Not Found")
 
