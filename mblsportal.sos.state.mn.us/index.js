@@ -77,7 +77,17 @@ function number(query, config={}) {
 
     search(query, {meta: false, cache: initial.cache}).then((searchResults) => {
       if (searchResults.length == 0) { 
-        resolve({meta: {query: query}, data: {error: 'Not Found'}});
+        var data;
+	var error = {error: 'Not Found'};
+	var meta = {query: query};
+
+	if (config.meta) {
+          data = {meta: meta, data: error};
+	} else {
+          data = error;
+	}
+
+	resolve(data);
       } else {
 	var entity = new Entity(searchResults[0]);
 	entity.fetch(initial).then((completeEntity) => {
