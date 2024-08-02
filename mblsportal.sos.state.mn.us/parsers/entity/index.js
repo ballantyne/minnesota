@@ -36,13 +36,18 @@ var regexes = {
 function entity(html, config, meta={}) {
 
   var results;
-  var history = { filings: [], renewals: []};
+  var history = { filings: [], renewals: [] };
 
   if (config.meta) {
     Object.assign(meta, {version: {cache: fingerprint('entity', html)}});
   }
 
-  var context = {state: 'scan', trim: true, parser: 'none', headers: []};
+  var context = {
+    state: 'scan', 
+    trim: true, 
+    parser: 'none', 
+    headers: []
+  };
 
   //config.verbose = true;
 
@@ -58,7 +63,7 @@ function entity(html, config, meta={}) {
         if (context.trim) {
 	  line = line.replace('<td>', '').replace('</td>', '').trim();
         } else {
-          var parts = tidy(line.trim(), true);
+          var parts = tidy(line.trim(), {split: true});
 	  
 	  if (parts.length > 1) {
             lines = parts.concat(lines);
@@ -102,7 +107,7 @@ function entity(html, config, meta={}) {
 	      break;
             
 	    case 'map:row':
-              lines = tidy(line, true).concat(lines);
+              lines = tidy(line, {split: true}).concat(lines);
 	      
 	      break;
 		 
@@ -261,7 +266,6 @@ function entity(html, config, meta={}) {
 
     };
 
-
     while(lines.length > 0) {
       var line = lines.shift().trim();
       if (line.length > 0) {
@@ -280,7 +284,6 @@ function entity(html, config, meta={}) {
       return obj;
     }, entity);
  
-
     if (config.meta) {
       meta.version.data = fingerprint('entity', entity);
       meta.requested_at = new Date();

@@ -4,7 +4,12 @@ function deglyph(text) {
 }
 module.exports.deglyph = deglyph;
 
-function tidy(html, split=false) {
+function tidy(html, options={}) {
+  if (options.split == undefined) {
+    options.split = false
+  }
+
+
   var array = html.split('').reduce((array, char) => {
     if (char == '<') {
       array.push('\n')
@@ -19,13 +24,14 @@ function tidy(html, split=false) {
     return array;
   }, [])
 
+  // filter out extras and trim;
   array = array.join('').split('\n').filter((line) => { 
     return line != ''; 
   }).map((line) => { 
     return line.trim(); 
   })
   
-  if (split) {
+  if (options.split) {
     return array;
   } else {
     return array.join('\n');
