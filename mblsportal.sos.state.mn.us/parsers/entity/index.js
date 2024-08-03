@@ -295,10 +295,6 @@ function entity(html, config, meta={}) {
     }, entity);
 
 
-    //if (Object.keys(entity) == 0) {
-    //  entity = addError(entity, 'Not found');
-    //}
-
     if (config.meta) {
       meta.version.data = fingerprint('entity', entity);
       meta.requested_at = new Date();
