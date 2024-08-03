@@ -81,15 +81,8 @@ function number(query, config={}) {
 
     search(query, {meta: false, cache: initial.cache}).then((searchResults) => {
       if (searchResults.length == 0) { 
-        var data;
-	var error = {error: 'Not Found'};
 	var meta = {query: query};
-
-	if (config.meta) {
-          data = {meta: meta, data: error};
-	} else {
-          data = error;
-	}
+	var data = metaify({error: 'Not Found'}, config, meta);
 
 	resolve(data);
       } else {
