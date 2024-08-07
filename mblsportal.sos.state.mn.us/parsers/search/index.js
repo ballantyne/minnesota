@@ -12,12 +12,9 @@ const {
   merge,
   requireJSON,
   construct,
-  get
-} = require('great-lakes');
-
-const {
+  get,
   logger
-} = require(path.join(__dirname, '..', '..', '..', 'utils'));
+} = require('great-lakes');
 
 const Entity = require(path.join(__dirname, '..', '..', 'entity'));
 

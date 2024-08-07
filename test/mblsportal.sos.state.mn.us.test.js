@@ -68,7 +68,7 @@ describe('Minnesota', () => {
 	  var options = {cache: true, meta: true};
 	  mblsportal.number('1357938301234', options).then((entity) => {
 	    // any good chinese food recommendations in the twin cities?
-	    //console.log(entity);
+	      //console.log(entity);
 
 	    assert.equal(entity.data.error, "Not Found")
 
@@ -129,12 +129,12 @@ describe('Minnesota', () => {
       });
 
       describe('liens', () => {
-	it("liens", (done) => {
+	xit("liens", (done) => {
 	  // I couldn't find a business with a lien.
 
-	  var options = {cache: true, meta: true};
+	  var options = {ttl: 500, cache: true, meta: true};
 	  mblsportal.liens('1270235600022', options).then((entity) => {
-	    //console.log(entity);
+	    console.log(entity);
 	    assert.equal(entity.data.length, 0)
 	    done();
 	  }).catch(console.log);

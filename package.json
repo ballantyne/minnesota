@@ -1,6 +1,6 @@
 {
   "name": "minnesota",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "data collection library related to minnesota.",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,7 @@
   "homepage": "https://github.com/ballantyne/minnesota#readme",
   "dependencies": {
     "carrier-pigeon": "^0.1.11",
-    "great-lakes": "^1.0.2"
+    "great-lakes": "^1.0.3"
   },
   "devDependencies": {
     "mocha": "^10.7.0"

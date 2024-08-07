@@ -8,17 +8,12 @@ const {
   cp,
   construct,
   prepare,
-  requireJSON
+  requireJSON,
+  metastasize
 } = require('great-lakes');
 
 var Parser = require(path.join(__dirname, 'parsers'));
 var Entity = require(path.join(__dirname, 'entity'));
-
-
-const {
-  metaify
-} = require(path.join(__dirname, '..', 'utils'));
-
 
 var constructQuery = construct(requireJSON(path.join(__dirname, 'queries')));
 var applyOptions = construct(requireJSON(path.join(__dirname, 'defaults')));
@@ -60,7 +55,7 @@ function fetch(query, config={}) {
     });
 
     if (response.headers.location == '/Home/Error') {
-      var result = metaify({error: "Not Found"}, config, meta)       
+      var result = metastasize({error: "Not Found"}, config, meta)       
       resolve(result);
     } else {
 

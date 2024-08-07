@@ -8,7 +8,8 @@ const {
   cp,
   construct,
   prepare,
-  requireJSON
+  requireJSON,
+  metastasize
 } = require('great-lakes');
 
 var Parser = require(path.join(__dirname, 'parsers'));
@@ -17,11 +18,6 @@ var Entity = require(path.join(__dirname, 'entity'));
 
 var constructQuery = construct(requireJSON(path.join(__dirname, 'queries')));
 var applyOptions   = construct(requireJSON(path.join(__dirname, 'defaults')));
-
-
-const {
-  metaify
-} = require(path.join(__dirname, '..', 'utils'));
 
 
 
@@ -82,7 +78,7 @@ function number(query, config={}) {
     search(query, {meta: false, cache: initial.cache}).then((searchResults) => {
       if (searchResults.length == 0) { 
 	var meta = {query: query};
-	var data = metaify({error: 'Not Found'}, config, meta);
+	var data = metastasize({error: 'Not Found'}, config, meta);
 
 	resolve(data);
       } else {
@@ -132,6 +128,8 @@ function liens(query, config={}) {
     var cache = await prepare(config);
     var cached = config.cache && cache.missed == false;
 
+    console.log('cached', cached);
+
     if (cached == true) {
       var response = JSON.parse(cache.data);
     } else {
@@ -152,7 +150,7 @@ function liens(query, config={}) {
   });
 
 }
-module.exports.liens = liens;
+//module.exports.liens = liens;
 
 
 

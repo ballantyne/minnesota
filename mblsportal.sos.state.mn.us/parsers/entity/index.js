@@ -13,13 +13,11 @@ const {
   cp, 
   merge, 
   requireJSON,
-  construct 
+  construct,
+  logger, 
+  deglyph,
+  restack
 } = require('great-lakes');
-
-
-const {
-  logger, zip, tidy, deglyph
-} = require(path.join(__dirname, '..', '..', '..', 'utils'));
 
 
 var fields         = requireJSON(path.join(__dirname, 'fields'));
@@ -68,7 +66,7 @@ function entity(html, config, meta={}) {
         if (context.trim) {
 	  line = line.replace('<td>', '').replace('</td>', '').trim();
         } else {
-          var parts = tidy(line.trim(), {split: true});
+          var parts = restack(line.trim(), {split: true});
 	  
 	  if (parts.length > 1) {
             lines = parts.concat(lines);
@@ -117,7 +115,7 @@ function entity(html, config, meta={}) {
 	      break;
 	    
 	    case 'map:row':
-              lines = tidy(line, {split: true}).concat(lines);
+              lines = restack(line, {split: true}).concat(lines);
 	      
 	      break;
 		 
