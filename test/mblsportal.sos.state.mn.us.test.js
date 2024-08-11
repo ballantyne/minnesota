@@ -36,6 +36,15 @@ describe('Minnesota', () => {
 	  }).catch(console.log);
 	}).timeout(5000);
 
+	it('haidilao', (done) => {
+	  var options = {cache: true, meta: true};
+	  mblsportal.entities('haidilao', options).then((entity) => {
+	    assert.equal(entity.data.length, 0);
+
+	    done();
+	  }).catch(console.log);
+	});
+
       });
 
       describe('number', () => {
