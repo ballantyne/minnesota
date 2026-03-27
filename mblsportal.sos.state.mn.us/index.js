@@ -45,7 +45,7 @@ function search(query, config={}) {
     } else {
       var response = await get(options, config).catch(console.log);
       if (config.cache && cache.missed) {
-	await cache.write(JSON.stringify(response));
+        await cache.write(JSON.stringify(response));
       }
     } 
 
@@ -77,15 +77,15 @@ function number(query, config={}) {
 
     search(query, {meta: false, cache: initial.cache}).then((searchResults) => {
       if (searchResults.length == 0) { 
-	var meta = {query: query};
-	var data = metastasize({error: 'Not Found'}, config, meta);
+        var meta = {query: query};
+        var data = metastasize({error: 'Not Found'}, config, meta);
 
-	resolve(data);
+        resolve(data);
       } else {
-	var entity = new Entity(searchResults[0]);
-	entity.fetch(initial).then((completeEntity) => {
-	  resolve(completeEntity);
-	})
+        var entity = new Entity(searchResults[0]);
+        entity.fetch(initial).then((completeEntity) => {
+          resolve(completeEntity);
+        })
       }
     })
   });
@@ -115,41 +115,41 @@ module.exports.entities = entities;
 
 
 // i can't find an example where there is a lien.  
-// So I just made it detect if there isn't and as of what time.
+  // So I just made it detect if there isn't and as of what time.
 
-function liens(query, config={}) {
-  return new Promise(async(resolve, reject) => {
-    if (typeof query == 'string') {
-      query = constructQuery('ucc', {FileNumber: query})
-    }
-    
-    config.signature = {function: 'liens', query: query};
-
-    var cache = await prepare(config);
-    var cached = config.cache && cache.missed == false;
-
-    console.log('cached', cached);
-
-    if (cached == true) {
-      var response = JSON.parse(cache.data);
-    } else {
-      var options = applyOptions('default', 'get');
-      var endpoint = ['/Secured/SearchResults', qs.stringify(query)].join('?')
-      options.path = endpoint;
-
-      var response = await get(options, config).catch(console.log);
-
-      if (config.cache && cache.missed) {
-	await cache.write(JSON.stringify(response));
+  function liens(query, config={}) {
+    return new Promise(async(resolve, reject) => {
+      if (typeof query == 'string') {
+        query = constructQuery('ucc', {FileNumber: query})
       }
-    } 
 
-    var list = await Parser.liens(response.body, config, {query: query})
+      config.signature = {function: 'liens', query: query};
 
-    resolve(list);
-  });
+      var cache = await prepare(config);
+      var cached = config.cache && cache.missed == false;
 
-}
+      console.log('cached', cached);
+
+      if (cached == true) {
+        var response = JSON.parse(cache.data);
+      } else {
+        var options = applyOptions('default', 'get');
+        var endpoint = ['/Secured/SearchResults', qs.stringify(query)].join('?')
+        options.path = endpoint;
+
+        var response = await get(options, config).catch(console.log);
+
+        if (config.cache && cache.missed) {
+          await cache.write(JSON.stringify(response));
+        }
+      } 
+
+      var list = await Parser.liens(response.body, config, {query: query})
+
+      resolve(list);
+    });
+
+  }
 //module.exports.liens = liens;
 
 
