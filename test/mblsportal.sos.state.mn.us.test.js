@@ -13,141 +13,141 @@ describe('Minnesota', () => {
   describe('Services', () => {
     describe('mblsportal.sos.state.mn.us', () => {
       describe('entities', () => {
-	
-	it('ibm', (done) => {
-	  var options = {cache: true, meta: true};
-	  mblsportal.entities('ibm', options).then((list) => {
-	    assert.equal(list.data[0].name, 'IBM')
-	    done();
-	  }).catch(console.log);
-	});
 
-	it('ibm, fetch from list item', (done) => {
-	  var options = {cache: true, meta: true};
-	  mblsportal.entities('ibm', options).then((list) => {
-	    assert.equal(list.data[0].name, 'IBM')
-	    list.data[0].fetch(options).then((entity) => {
-	      assert.equal(entity.meta.url, 'https://mblsportal.sos.state.mn.us/Business/SearchDetails?filingGuid=1fbde1fd-a0d4-e011-a886-001ec94ffe7f');
-	      assert.equal(entity.meta.id, '1fbde1fd-a0d4-e011-a886-001ec94ffe7f');
-	      assert.equal(entity.data.type, 'Trademark');
+        it('ibm', (done) => {
+          var options = {cache: true, meta: true};
+          mblsportal.entities('ibm', options).then((list) => {
+            assert.equal(list.data[0].name, 'IBM')
+            done();
+          }).catch(console.log);
+        });
 
-	      done();
-	    }).catch(console.log);
-	  }).catch(console.log);
-	}).timeout(5000);
+        it('ibm, fetch from list item', (done) => {
+          var options = {cache: true, meta: true};
+          mblsportal.entities('ibm', options).then((list) => {
+            assert.equal(list.data[0].name, 'IBM')
+            list.data[0].fetch(options).then((entity) => {
+              assert.equal(entity.meta.url, 'https://mblsportal.sos.state.mn.us/Business/SearchDetails?filingGuid=1fbde1fd-a0d4-e011-a886-001ec94ffe7f');
+              assert.equal(entity.meta.id, '1fbde1fd-a0d4-e011-a886-001ec94ffe7f');
+              assert.equal(entity.data.type, 'Trademark');
 
-	it('haidilao', (done) => {
-	  var options = {cache: true, meta: true};
-	  mblsportal.entities('haidilao', options).then((entity) => {
-	    assert.equal(entity.data.length, 0);
+              done();
+            }).catch(console.log);
+          }).catch(console.log);
+        }).timeout(5000);
 
-	    done();
-	  }).catch(console.log);
-	});
+        it('haidilao', (done) => {
+          var options = {cache: true, meta: true};
+          mblsportal.entities('haidilao', options).then((entity) => {
+            assert.equal(entity.data.length, 0);
+
+            done();
+          }).catch(console.log);
+        });
 
       });
 
       describe('number', () => {
 
-	it('ibm?', (done) => {
-	  var options = {cache: true, meta: true};
-	  mblsportal.number('1471418800022', options).then((list) => {
-	    assert.equal(list.data.name, 'IBM LLC')
-	    done();
-	  }).catch(console.log);
-	});
+        it('ibm?', (done) => {
+          var options = {cache: true, meta: true};
+          mblsportal.number('1471418800022', options).then((list) => {
+            assert.equal(list.data.name, 'IBM LLC')
+            done();
+          }).catch(console.log);
+        });
 
 
-	it('hotpot', (done) => {
-	  var options = {cache: true, meta: true};
-	  mblsportal.number('1357938300026', options).then((entity) => {
-	    // any good chinese food recommendations in the twin cities?
-	    // console.log(entity.data);
+        it('hotpot', (done) => {
+          var options = {cache: true, meta: true};
+          mblsportal.number('1357938300026', options).then((entity) => {
+            // any good chinese food recommendations in the twin cities?
+              // console.log(entity.data);
 
-	    assert.equal(entity.data.name, "HOT POT CITY")
-	    assert.equal(entity.data.applicant.name, "HOT POT CITY LLC")
-	    assert.equal(entity.data.applicant.address.street, "12160 TECHNOLOGY DR")
+            assert.equal(entity.data.name, "HOT POT CITY")
+            assert.equal(entity.data.applicant.name, "HOT POT CITY LLC")
+            assert.equal(entity.data.applicant.address.street, "12160 TECHNOLOGY DR")
 
-	    done();
-	  }).catch(console.log);
-	});
-
-
-	it('not hotpot', (done) => {
-	  var options = {cache: true, meta: true};
-	  mblsportal.number('1357938301234', options).then((entity) => {
-	    // any good chinese food recommendations in the twin cities?
-	      //console.log(entity);
-
-	    assert.equal(entity.data.error, "Not Found")
-
-	    done();
-	  }).catch(console.log);
-	});
+            done();
+          }).catch(console.log);
+        });
 
 
-	it('apple', (done) => {
-	  var options = {cache: true, meta: true};
-	  mblsportal.number('20509', options).then((entity) => {
-	    //console.log(entity.data);
+        it('not hotpot', (done) => {
+          var options = {cache: true, meta: true};
+          mblsportal.number('1357938301234', options).then((entity) => {
+            // any good chinese food recommendations in the twin cities?
+              //console.log(entity);
 
-	    assert.equal(entity.data.name, "APPLE INC.")
-	    assert.equal(entity.data.ceo.name, "Timothy Cook")  
-	    assert.equal(entity.data.registered_office.street, "1010 Dale St N")
+            assert.equal(entity.data.error, "Not Found")
 
-	    done();
-	  }).catch(console.log);
-	});
+            done();
+          }).catch(console.log);
+        });
 
 
-	it("teal's", (done) => {
-	  var options = {cache: true, meta: true};
-	  mblsportal.number('938197700044', options).then((entity) => {
-	    assert.equal(entity.data.name, "Teal's Market")
+        it('apple', (done) => {
+          var options = {cache: true, meta: true};
+          mblsportal.number('20509', options).then((entity) => {
+            //console.log(entity.data);
 
-	    done();
-	  }).catch(console.log);
-	});
+            assert.equal(entity.data.name, "APPLE INC.")
+            assert.equal(entity.data.ceo.name, "Timothy Cook")  
+            assert.equal(entity.data.registered_office.street, "1010 Dale St N")
 
-	
-	it("hum's", (done) => {
-	  var options = {cache: true, meta: true};
-	  mblsportal.number('899984500029', options).then((entity) => {
-	    //console.log(entity.data);
-	    assert.equal(entity.data.name, "Hum's Liquor")
+            done();
+          }).catch(console.log);
+        });
 
-	    assert.equal(entity.data.filings.length, 1);
-	    assert.equal(entity.data.renewals.length, 7);
 
-	    done();
-	  }).catch(console.log);
-	});
+        it("teal's", (done) => {
+          var options = {cache: true, meta: true};
+          mblsportal.number('938197700044', options).then((entity) => {
+            assert.equal(entity.data.name, "Teal's Market")
 
-	it("mra", (done) => {
-	  var options = {cache: true, meta: true};
-	  mblsportal.number('1270235600022', options).then((entity) => {
-	    //console.log(entity);
+            done();
+          }).catch(console.log);
+        });
 
-	    assert.equal(entity.data.name, "MARKET RESEARCH ASSOCIATES")
-	    assert.equal(entity.data.type, "Assumed Name")
 
-	    done();
-	  }).catch(console.log);
-	}).timeout(5000);
- 
+        it("hum's", (done) => {
+          var options = {cache: true, meta: true};
+          mblsportal.number('899984500029', options).then((entity) => {
+            //console.log(entity.data);
+            assert.equal(entity.data.name, "Hum's Liquor")
+
+            assert.equal(entity.data.filings.length, 1);
+            assert.equal(entity.data.renewals.length, 7);
+
+            done();
+          }).catch(console.log);
+        });
+
+        it("mra", (done) => {
+          var options = {cache: true, meta: true};
+          mblsportal.number('1270235600022', options).then((entity) => {
+            //console.log(entity);
+
+            assert.equal(entity.data.name, "MARKET RESEARCH ASSOCIATES")
+            assert.equal(entity.data.type, "Assumed Name")
+
+            done();
+          }).catch(console.log);
+        }).timeout(5000);
+
       });
 
       describe('liens', () => {
-	xit("liens", (done) => {
-	  // I couldn't find a business with a lien.
+        xit("liens", (done) => {
+          // I couldn't find a business with a lien.
 
-	  var options = {ttl: 500, cache: true, meta: true};
-	  mblsportal.liens('1270235600022', options).then((entity) => {
-	    console.log(entity);
-	    assert.equal(entity.data.length, 0)
-	    done();
-	  }).catch(console.log);
-	}).timeout(5000);
+            var options = {ttl: 500, cache: true, meta: true};
+          mblsportal.liens('1270235600022', options).then((entity) => {
+            console.log(entity);
+            assert.equal(entity.data.length, 0)
+            done();
+          }).catch(console.log);
+        }).timeout(5000);
       });
 
     });
